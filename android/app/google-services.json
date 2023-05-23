@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "928565423018",
+    "project_id": "parrot-topluluk",
+    "storage_bucket": "parrot-topluluk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928565423018:android:4cf9cdb24a3edb24e519d3",
+        "android_client_info": {
+          "package_name": "com.example.parrot_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928565423018-3ki9ril3568tafni0ojbkn4g1pro35vc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parrot_project",
+            "certificate_hash": "9f237af2ab9a0b19a0f3efdf0cd89c3a322fb14a"
+          }
+        },
+        {
+          "client_id": "928565423018-cs5snvunlotl209630n9grgda3u57qv4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwE8HfOrZhHSKYyzURqmkaXHvfM3Ha6Xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928565423018-cs5snvunlotl209630n9grgda3u57qv4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "928565423018-94i7dvjsflc8v9ni72qcra11sp4a3pli.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.parrotProject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
