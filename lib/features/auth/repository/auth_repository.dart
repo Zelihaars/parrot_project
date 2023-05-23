@@ -13,6 +13,8 @@ import 'package:parrot_project/core/type_defs.dart';
 import '../../../core/constants/constants.dart';
 import '../../../models/user_model.dart';
 
+
+
 final authRepositoryProvider=Provider((ref)=>
 AuthRepository(firestore: ref.read(firestoreProvider), auth: ref.read(authProvider), googleSignIn: ref.read(googleSignInProvider),
 ),
@@ -33,6 +35,7 @@ class AuthRepository{
     _googleSignIn=googleSignIn;
     
     CollectionReference get _users=>_firestore.collection(FirebaseConstants.usersCollection);
+    Stream<User?> get authStateChange => _auth.authStateChanges();
 
   FutureEither<UserModel> signInWithGoogle()async{
     try{
@@ -46,7 +49,7 @@ class AuthRepository{
       );
 
       UserCredential userCredential=await _auth.signInWithCredential(credential);
-      late UserModel userModel;
+      UserModel userModel;
 
       if (userCredential.additionalUserInfo!.isNewUser){
           userModel = UserModel(
@@ -56,7 +59,7 @@ class AuthRepository{
           uid: userCredential.user!.uid,
           isAuthenticated: true,
           karma: 0,
-          awards: [
+          awards: [ ],
            /* 'awesomeAns',
             'gold',
             'platinum',
@@ -65,11 +68,11 @@ class AuthRepository{
             'rocket',
             'thankyou',
             'til',*/
-          ],
+
         );
         await _users.doc(userCredential.user!.uid).set(userModel.toMap());
       }else{
-        userModel = await getUserData(uid).first;
+        userModel = await getUserData(userCredential.user!.uid).first;
       }
       return right(userModel);
         

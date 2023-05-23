@@ -43,6 +43,7 @@ dependencies:
   flutter_riverpod: ^2.3.6
   firebase_auth: ^4.5.0
   fpdart: ^0.6.0
+  routemaster: ^1.0.1
 
 
   
