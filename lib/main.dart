@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -37,29 +39,21 @@ class _MyAppState extends ConsumerState<MyApp> {
         .getUserData(data.uid)
         .first;
     ref.read(userProvider.notifier).update((state) => userModel);
+    setState(() {
+      
+    });
   }
   
   @override
   Widget build(BuildContext context){
-  return ref.watch(authStateChangeProvider).when(data: (data)=>MaterialApp.router(
+  return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Parrot Topluluğu',
       theme: Pallete.darkModeAppTheme,
-      routerDelegate: RoutemasterDelegate(
-        routesBuilder: (context){
-                if (data != null) {
-                   getData(ref, data);
-                   if (userModel != null) {
-                    return loggedInRoute;
-                  }
-                }
-                return loggedOutRoute;
-                },
-                ),
-      routeInformationParser:const RoutemasterParser(),
-    )
-    , error: (error, stackTrace) => ErrorText(error: error.toString()),
-          loading: () => const Loader(),);
+      home: const SizedBox(),
+
+    );
+  
   }
 }
 

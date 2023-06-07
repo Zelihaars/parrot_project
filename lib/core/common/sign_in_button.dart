@@ -18,7 +18,9 @@ import 'package:parrot_project/theme/pallete.dart';
      return Padding(
        padding: const EdgeInsets.all(8.0),
        child: ElevatedButton.icon(
-        onPressed: ()=>signInWithGoogle(context, ref),
+        onPressed: (){
+            //=>signInWithGoogle(context, ref),
+        },
         icon: Image.asset(Constants.googlePath,
         width: 35,), 
         label: const Text('Google ile giriş',

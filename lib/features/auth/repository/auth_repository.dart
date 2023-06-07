@@ -59,26 +59,26 @@ class AuthRepository{
           uid: userCredential.user!.uid,
           isAuthenticated: true,
           karma: 0,
-          awards: [ ],
-           /* 'awesomeAns',
+          awards: [ 
+            'awesomeAns',
             'gold',
             'platinum',
             'helpful',
             'plusone',
             'rocket',
             'thankyou',
-            'til',*/
+            'til'],
+           /* ,*/
 
         );
-        await _users.doc(userCredential.user!.uid).set(userModel.toMap());
-      }else{
+          await _users.doc(userCredential.user!.uid).set(userModel.toMap());
+      } else {
         userModel = await getUserData(userCredential.user!.uid).first;
       }
       return right(userModel);
-        
-    } on FirebaseException catch(e){
+    } on FirebaseException catch (e) {
       throw e.message!;
-    } catch(e){
+    } catch (e) {
       return left(Failure(e.toString()));
     }
   }
