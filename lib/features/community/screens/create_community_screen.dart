@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/common/loader.dart';
 import '../../../responsive/responsive.dart';
 import '../controller/community_controller.dart';
+
 class CreateCommunityScreen extends ConsumerStatefulWidget {
   const CreateCommunityScreen({super.key});
 
