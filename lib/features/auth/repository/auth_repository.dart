@@ -9,7 +9,6 @@ import 'package:parrot_project/core/constants/firebase_constants.dart';
 import 'package:parrot_project/core/failure.dart';
 import 'package:parrot_project/core/providers/firebase_providers.dart';
 import 'package:parrot_project/core/type_defs.dart';
-
 import '../../../core/constants/constants.dart';
 import '../../../models/user_model.dart';
 
