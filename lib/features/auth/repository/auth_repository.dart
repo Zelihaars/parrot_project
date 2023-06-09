@@ -13,7 +13,6 @@ import '../../../core/constants/constants.dart';
 import '../../../models/user_model.dart';
 
 
-
 final authRepositoryProvider=Provider((ref)=>
 AuthRepository(firestore: ref.read(firestoreProvider), auth: ref.read(authProvider), googleSignIn: ref.read(googleSignInProvider),
 ),
