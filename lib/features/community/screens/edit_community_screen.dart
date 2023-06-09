@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/utils.dart';
 import '../../../theme/pallete.dart';
-
 import '../../../core/common/error_text.dart';
 import '../../../core/common/loader.dart';
 import '../../../models/community_model.dart';
