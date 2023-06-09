@@ -6,7 +6,7 @@ import '../controller/community_controller.dart';
 
 class CreateCommunityScreen extends ConsumerStatefulWidget {
   const CreateCommunityScreen({super.key});
-
+  
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CreateCommunityScreenState();
 }
