@@ -7,7 +7,6 @@ import '../auth/controller/auth_controller.dart';
 import '../../features/community/controller/community_controller.dart';
 import '../../features/post/controller/post_controller.dart';
 
-
 class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});
 
