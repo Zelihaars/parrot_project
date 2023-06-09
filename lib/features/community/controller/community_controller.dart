@@ -13,7 +13,6 @@ import 'package:reddit_tutorial/features/community/repository/communitory_reposi
 import 'package:reddit_tutorial/models/community_model.dart';
 import 'package:reddit_tutorial/models/post_model.dart';
 import 'package:routemaster/routemaster.dart';
-
 import '../repository/communitory_repository.dart';
 
 final userCommunitiesProvider = StreamProvider((ref) {
