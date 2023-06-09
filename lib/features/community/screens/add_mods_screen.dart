@@ -4,7 +4,6 @@ import 'package:reddit_tutorial/core/common/error_text.dart';
 import 'package:reddit_tutorial/core/common/loader.dart';
 import 'package:reddit_tutorial/features/auth/controlller/auth_controller.dart';
 import 'package:reddit_tutorial/features/community/controller/community_controller.dart';
-
 class AddModsScreen extends ConsumerStatefulWidget {
   final String name;
   const AddModsScreen({
