@@ -14,7 +14,6 @@ class Community {
     required this.members,
     required this.mods,
   });
-
   Community copyWith({
     String? id,
     String? name,
