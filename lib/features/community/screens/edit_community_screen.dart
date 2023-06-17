@@ -81,12 +81,12 @@ class _EditCommunityScreenState extends ConsumerState<EditCommunityScreen> {
       data: (community) => Scaffold(
         backgroundColor: currentTheme.backgroundColor,
         appBar: AppBar(
-          title: const Text('Edit Community'),
+          title: const Text('Topluluğu düzenle'),
           centerTitle: false,
           actions: [
             TextButton(
               onPressed: () => save(community),
-              child: const Text('Save'),
+              child: const Text('Kaydet'),
             ),
           ],
         ),

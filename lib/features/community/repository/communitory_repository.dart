@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:reddit_tutorial/models/post_model.dart';
+import '../../../models/post_model.dart';
 import '../../../core/constants/firebase_constants.dart';
 import '../../../core/failure.dart';
 import '../../../core/providers/firebase_providers.dart';
@@ -19,7 +19,7 @@ class CommunityRepository {
     try {
       var communityDoc = await _communities.doc(community.name).get();
       if (communityDoc.exists) {
-        throw 'Community with the same name already exists!';
+        throw 'Aynı isimde bir topluluk zaten mevcut!';
       }
 
       return right(_communities.doc(community.name).set(community.toMap()));
