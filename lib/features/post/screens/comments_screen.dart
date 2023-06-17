@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reddit_tutorial/core/common/error_text.dart';
-import 'package:reddit_tutorial/core/common/loader.dart';
-import 'package:reddit_tutorial/core/common/post_card.dart';
-import 'package:reddit_tutorial/features/auth/controlller/auth_controller.dart';
-import 'package:reddit_tutorial/features/post/controller/post_controller.dart';
-import 'package:reddit_tutorial/features/post/widgets/comment_card.dart';
-import 'package:reddit_tutorial/models/post_model.dart';
-import 'package:reddit_tutorial/responsive/responsive.dart';
+import '../../../core/common/error_text.dart';
+import '../../../core/common/loader.dart';
+import '../../../core/common/post_card.dart';
+import '../../../features/auth/controlller/auth_controller.dart';
+import '../../../features/post/controller/post_controller.dart';
+import '../../../features/post/widgets/comment_card.dart';
+import '../../../models/post_model.dart';
+import '../../../responsive/responsive.dart';
 
 class CommentsScreen extends ConsumerStatefulWidget {
   final String postId;
@@ -23,12 +23,14 @@ class CommentsScreen extends ConsumerStatefulWidget {
 class _CommentsScreenState extends ConsumerState<CommentsScreen> {
   final commentController = TextEditingController();
 
+  //State sınıfı sonlandığında çağrılır ve kullanılan controller'ı temizlemek için kullanılır.
   @override
   void dispose() {
     super.dispose();
     commentController.dispose();
   }
 
+  //yorum ekler.
   void addComment(Post post) {
     ref.read(postControllerProvider.notifier).addComment(
       context: context,
@@ -58,7 +60,7 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
                     onSubmitted: (val) => addComment(data),
                     controller: commentController,
                     decoration: const InputDecoration(
-                      hintText: 'What are your thoughts?',
+                      hintText: 'Neler düşünüyorsun?',
                       filled: true,
                       border: InputBorder.none,
                     ),

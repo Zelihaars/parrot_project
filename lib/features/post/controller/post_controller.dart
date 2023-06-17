@@ -2,19 +2,19 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reddit_tutorial/core/enums/enums.dart';
-import 'package:reddit_tutorial/core/providers/storage_repository_provider.dart';
-import 'package:reddit_tutorial/features/post/repository/post_repository.dart';
-import 'package:reddit_tutorial/features/user_profile/controller/user_profile_controller.dart';
-import 'package:reddit_tutorial/models/comment_model.dart';
-import 'package:reddit_tutorial/models/post_model.dart';
+import '../../../core/enums/enums.dart';
+import '../../../core/providers/storage_repository_provider.dart';
+import '../../../core/utils.dart';
+import '../../../features/auth/controlller/auth_controller.dart';
+import '../../../features/post/repository/post_repository.dart';
+import '../../../features/user_profile/controller/user_profile_controller.dart';
+import '../../../models/comment_model.dart';
+import '../../../models/community_model.dart';
+import '../../../models/post_model.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../core/utils.dart';
-import '../../../models/community_model.dart';
-import '../../auth/controller/auth_controller.dart';
-
+// post işlemlerini gerçekleştirmek için kullanılır.
 final postControllerProvider = StateNotifierProvider<PostController, bool>((ref) {
   final postRepository = ref.watch(postRepositoryProvider);
   final storageRepository = ref.watch(storageRepositoryProvider);
@@ -25,21 +25,25 @@ final postControllerProvider = StateNotifierProvider<PostController, bool>((ref)
   );
 });
 
+//Belirli bir kullanıcının postlarını almak için kullanılır.
 final userPostsProvider = StreamProvider.family((ref, List<Community> communities) {
   final postController = ref.watch(postControllerProvider.notifier);
   return postController.fetchUserPosts(communities);
 });
 
+//Misafir kullanıcının postlarını almak için kullanılır.
 final guestPostsProvider = StreamProvider((ref) {
   final postController = ref.watch(postControllerProvider.notifier);
   return postController.fetchGuestPosts();
 });
 
+//Belirli bir postun ID'sine göre postu almak için kullanılır.
 final getPostByIdProvider = StreamProvider.family((ref, String postId) {
   final postController = ref.watch(postControllerProvider.notifier);
   return postController.getPostById(postId);
 });
 
+//Belirli bir postun yorumlarını almak için kullanılır.
 final getPostCommentsProvider = StreamProvider.family((ref, String postId) {
   final postController = ref.watch(postControllerProvider.notifier);
   return postController.fetchPostComments(postId);
@@ -58,6 +62,7 @@ class PostController extends StateNotifier<bool> {
         _storageRepository = storageRepository,
         super(false);
 
+  // Metin tabanlı bir post paylaşımı gerçekleştirir.
   void shareTextPost({
     required BuildContext context,
     required String title,
@@ -88,11 +93,12 @@ class PostController extends StateNotifier<bool> {
     _ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.textPost);
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
-      showSnackBar(context, 'Posted successfully!');
+      showSnackBar(context, 'Başarıyla gönderildi!');
       Routemaster.of(context).pop();
     });
   }
 
+  //Bağlantı tabanlı bir post paylaşımı gerçekleştirir.
   void shareLinkPost({
     required BuildContext context,
     required String title,
@@ -123,11 +129,12 @@ class PostController extends StateNotifier<bool> {
     _ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.linkPost);
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
-      showSnackBar(context, 'Posted successfully!');
+      showSnackBar(context, 'Başarıyla gönderildi!');
       Routemaster.of(context).pop();
     });
   }
 
+  //Görsel tabanlı bir post paylaşımı gerçekleştirir. Başlık, seçilen topluluk, dosya veya web dosyası vb. gibi gerekli parametreleri alır.
   void shareImagePost({
     required BuildContext context,
     required String title,
@@ -166,12 +173,13 @@ class PostController extends StateNotifier<bool> {
       _ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.imagePost);
       state = false;
       res.fold((l) => showSnackBar(context, l.message), (r) {
-        showSnackBar(context, 'Posted successfully!');
+        showSnackBar(context, 'Başarıyla gönderildi!');
         Routemaster.of(context).pop();
       });
     });
   }
 
+  //Belirli bir kullanıcının postlarını getirir.
   Stream<List<Post>> fetchUserPosts(List<Community> communities) {
     if (communities.isNotEmpty) {
       return _postRepository.fetchUserPosts(communities);
@@ -179,30 +187,36 @@ class PostController extends StateNotifier<bool> {
     return Stream.value([]);
   }
 
+  //Misafir kullanıcının postlarını getirir.
   Stream<List<Post>> fetchGuestPosts() {
     return _postRepository.fetchGuestPosts();
   }
 
+  //Bir postu siler.
   void deletePost(Post post, BuildContext context) async {
     final res = await _postRepository.deletePost(post);
     _ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.deletePost);
-    res.fold((l) => null, (r) => showSnackBar(context, 'Post Deleted successfully!'));
+    res.fold((l) => null, (r) => showSnackBar(context, 'Post Başarıyla Silindi!'));
   }
 
+  //Bir posta beğenir.
   void upvote(Post post) async {
     final uid = _ref.read(userProvider)!.uid;
     _postRepository.upvote(post, uid);
   }
 
+  //Bir postu beğenmez.
   void downvote(Post post) async {
     final uid = _ref.read(userProvider)!.uid;
     _postRepository.downvote(post, uid);
   }
 
+  //Bir postu ID'sine göre getirir.
   Stream<Post> getPostById(String postId) {
     return _postRepository.getPostById(postId);
   }
 
+  //Bir posta yorum ekler.
   void addComment({
     required BuildContext context,
     required String text,
@@ -223,6 +237,7 @@ class PostController extends StateNotifier<bool> {
     res.fold((l) => showSnackBar(context, l.message), (r) => null);
   }
 
+  // Bir posta ödül verir.
   void awardPost({
     required Post post,
     required String award,
@@ -242,6 +257,7 @@ class PostController extends StateNotifier<bool> {
     });
   }
 
+  //Bir postun yorumlarını getirir.
   Stream<List<Comment>> fetchPostComments(String postId) {
     return _postRepository.getCommentsOfPost(postId);
   }

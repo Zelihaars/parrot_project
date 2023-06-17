@@ -54,7 +54,7 @@ class CommentCard extends ConsumerWidget {
                   onPressed: () {},
                   icon: const Icon(Icons.reply),
                 ),
-                const Text('Reply'),
+                const Text('Cevap ver'),
               ],
             ),
           ],
