@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:parrot_project/features/auth/repository/home/screens/home_screen.dart';
-import 'package:parrot_project/features/auth/screen/login_screen.dart';
+import '../../features/community/screens/add_mods_screen.dart';
+import '../../features/community/screens/community_screen.dart';
+import '../../features/community/screens/create_community_screen.dart';
+import '../../features/community/screens/edit_community_screen.dart';
+import '../../features/community/screens/mod_tools_screen.dart';
+import '../../features/home/screens/home_screen.dart';
+import '../../features/post/screens/add_post_screen.dart';
+import '../../features/post/screens/add_post_type_screen.dart';
+import '../../features/post/screens/comments_screen.dart';
+import '../../features/user_profile/screens/edit_profile_screen.dart';
+import '../../features/user_profile/screens/user_profile_screen.dart';
 import 'package:routemaster/routemaster.dart';
-import 'features/community/screens/add_mods_screen.dart';
-import 'features/community/screens/community_screen.dart';
-import 'features/community/screens/create_community_screen.dart';
-import 'features/community/screens/edit_community_screen.dart';
-import 'features/community/screens/mod_tools_screen.dart';
-import 'features/post/screens/add_post_screen.dart';
-import 'features/post/screens/add_post_type_screen.dart';
-import 'features/post/screens/comments_screen.dart';
-import 'features/user_profile/screens/edit_profile_screen.dart';
-import 'features/user_profile/screens/user_profile_screen.dart';
+
+import 'features/auth/screen/login_screen.dart';
+
 final loggedOutRoute = RouteMap(routes: {
   '/': (_) => const MaterialPage(child: LoginScreen()),
 });

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../core/common/error_text.dart';
-import '../../core/common/loader.dart';
-import 'package:reddit_tutorial/core/common/post_card.dart';
+import '../../../core/common/error_text.dart';
+import '../../../core/common/loader.dart';
+import '../../../core/common/post_card.dart';
+import '../../../features/community/controller/community_controller.dart';
 import '../auth/controller/auth_controller.dart';
-import '../../features/community/controller/community_controller.dart';
-import '../../features/post/controller/post_controller.dart';
+import '../post/controller/post_controller.dart';
 
 class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});
