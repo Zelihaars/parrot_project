@@ -1,15 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reddit_tutorial/theme/pallete.dart';
+import '../../../theme/pallete.dart';
 import 'package:routemaster/routemaster.dart';
 
 class AddPostScreen extends ConsumerWidget {
   const AddPostScreen({super.key});
 
-  void navigateToType(BuildContext context, String type) {
-    Routemaster.of(context).push('/add-post/$type');
-  }
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

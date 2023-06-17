@@ -1,17 +1,16 @@
 import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reddit_tutorial/core/common/error_text.dart';
-import 'package:reddit_tutorial/core/common/loader.dart';
-import 'package:reddit_tutorial/core/utils.dart';
-import 'package:reddit_tutorial/features/community/controller/community_controller.dart';
-import 'package:reddit_tutorial/features/post/controller/post_controller.dart';
-import 'package:reddit_tutorial/models/community_model.dart';
-import 'package:reddit_tutorial/responsive/responsive.dart';
-import 'package:reddit_tutorial/theme/pallete.dart';
+import '../../../core/common/error_text.dart';
+import '../../../core/common/loader.dart';
+import '../../../core/utils.dart';
+import '../../../features/community/controller/community_controller.dart';
+import '../../../features/post/controller/post_controller.dart';
+import '../../../models/community_model.dart';
+import '../../../responsive/responsive.dart';
+import '../../../theme/pallete.dart';
 
 class AddPostTypeScreen extends ConsumerStatefulWidget {
   final String type;
@@ -33,6 +32,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
   List<Community> communities = [];
   Community? selectedCommunity;
 
+  //State sınıfı sonlandığında çağrılır ve kullanılan controller'ları temizlemek için kullanılır.
   @override
   void dispose() {
     super.dispose();
@@ -41,6 +41,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
     linkController.dispose();
   }
 
+  //Kullanıcının bir gönderi resmi seçmesini sağlayan bir fonksiyondur.
   void selectBannerImage() async {
     final res = await pickImage();
 
@@ -56,6 +57,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
     }
   }
 
+  //Gönderiyi paylaşma işlevini gerçekleştiren bir fonksiyondur.
   void sharePost() {
     if (widget.type == 'image' && (bannerFile != null || bannerWebFile != null) && titleController.text.isNotEmpty) {
       ref.read(postControllerProvider.notifier).shareImagePost(
@@ -80,7 +82,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
         link: linkController.text.trim(),
       );
     } else {
-      showSnackBar(context, 'Please enter all the fields');
+      showSnackBar(context, 'Lütfen tüm alanları girin');
     }
   }
 
@@ -98,7 +100,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
         actions: [
           TextButton(
             onPressed: sharePost,
-            child: const Text('Share'),
+            child: const Text('Paylaş'),
           ),
         ],
       ),
@@ -113,7 +115,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
                 controller: titleController,
                 decoration: const InputDecoration(
                   filled: true,
-                  hintText: 'Enter Title here',
+                  hintText: 'Başlığı buraya gir',
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.all(18),
                 ),
@@ -153,7 +155,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
                   controller: descriptionController,
                   decoration: const InputDecoration(
                     filled: true,
-                    hintText: 'Enter Description here',
+                    hintText: 'Açıklamayı buraya gir',
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(18),
                   ),
@@ -164,7 +166,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
                   controller: linkController,
                   decoration: const InputDecoration(
                     filled: true,
-                    hintText: 'Enter link here',
+                    hintText: 'Linki buraya gir',
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(18),
                   ),
@@ -173,7 +175,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
               const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'Select Community',
+                  'Topluluk Seç',
                 ),
               ),
               ref.watch(userCommunitiesProvider).when(
