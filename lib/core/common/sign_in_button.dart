@@ -10,7 +10,7 @@ import 'package:parrot_project/theme/pallete.dart';
    void signInWithGoogle(BuildContext context, WidgetRef ref){
       ref.read(authControllerProvider.notifier).signInWithGoogle(context);
   }
-   
+  
    
    
    @override
