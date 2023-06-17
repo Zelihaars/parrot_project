@@ -8,6 +8,7 @@ import '../../../models/community_model.dart';
 import '../../auth/controller/auth_controller.dart';
 import '../controller/community_controller.dart';
 
+
 class CommunityScreen extends ConsumerWidget {
   final String name;
   const CommunityScreen({super.key, required this.name});
