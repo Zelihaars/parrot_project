@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
-import '../../../models/post_model.dart';
 import '../../../core/constants/firebase_constants.dart';
 import '../../../core/failure.dart';
 import '../../../core/providers/firebase_providers.dart';
 import '../../../core/type_defs.dart';
 import '../../../models/community_model.dart';
+import '../../../models/post_model.dart';
+
 final communityRepositoryProvider = Provider((ref) {
   return CommunityRepository(firestore: ref.watch(firestoreProvider));
 });
@@ -15,11 +16,12 @@ class CommunityRepository {
   final FirebaseFirestore _firestore;
   CommunityRepository({required FirebaseFirestore firestore}) : _firestore = firestore;
 
+  // Yeni bir topluluk oluşturur ve Firestore'daki _communities koleksiyonuna ekler.
   FutureVoid createCommunity(Community community) async {
     try {
       var communityDoc = await _communities.doc(community.name).get();
       if (communityDoc.exists) {
-        throw 'Aynı isimde bir topluluk zaten mevcut!';
+        throw 'Aynı isme sahip topluluk zaten var!';
       }
 
       return right(_communities.doc(community.name).set(community.toMap()));
@@ -30,6 +32,7 @@ class CommunityRepository {
     }
   }
 
+  //Bir kullanıcıyı belirli bir topluluğa üye olarak ekler.
   FutureVoid joinCommunity(String communityName, String userId) async {
     try {
       return right(_communities.doc(communityName).update({
@@ -42,10 +45,11 @@ class CommunityRepository {
     }
   }
 
+  //Bir kullanıcıyı belirli bir topluluktan çıkarır.
   FutureVoid leaveCommunity(String communityName, String userId) async {
     try {
       return right(_communities.doc(communityName).update({
-        'members': FieldValue.arrayRemove([userId]),
+        'üyeler': FieldValue.arrayRemove([userId]),
       }));
     } on FirebaseException catch (e) {
       throw e.message!;
@@ -54,6 +58,7 @@ class CommunityRepository {
     }
   }
 
+  //Bir kullanıcının üye olduğu toplulukları getirir.
   Stream<List<Community>> getUserCommunities(String uid) {
     return _communities.where('members', arrayContains: uid).snapshots().map((event) {
       List<Community> communities = [];
@@ -64,10 +69,12 @@ class CommunityRepository {
     });
   }
 
+  // İsimle belirli bir topluluğu getirir.
   Stream<Community> getCommunityByName(String name) {
     return _communities.doc(name).snapshots().map((event) => Community.fromMap(event.data() as Map<String, dynamic>));
   }
 
+  //Bir topluluğun bilgilerini günceller.
   FutureVoid editCommunity(Community community) async {
     try {
       return right(_communities.doc(community.name).update(community.toMap()));
@@ -78,6 +85,7 @@ class CommunityRepository {
     }
   }
 
+  //Belirli bir sorguya göre toplulukları arar.
   Stream<List<Community>> searchCommunity(String query) {
     return _communities
         .where(
@@ -100,6 +108,7 @@ class CommunityRepository {
     });
   }
 
+  //Bir topluluğa moderatör ekler.
   FutureVoid addMods(String communityName, List<String> uids) async {
     try {
       return right(_communities.doc(communityName).update({
@@ -112,6 +121,7 @@ class CommunityRepository {
     }
   }
 
+  //Bir topluluğa ait gönderileri getirir.
   Stream<List<Post>> getCommunityPosts(String name) {
     return _posts.where('communityName', isEqualTo: name).orderBy('createdAt', descending: true).snapshots().map(
           (event) => event.docs

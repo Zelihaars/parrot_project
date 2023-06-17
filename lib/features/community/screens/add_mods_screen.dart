@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reddit_tutorial/core/common/error_text.dart';
-import 'package:reddit_tutorial/core/common/loader.dart';
-import 'package:reddit_tutorial/features/auth/controlller/auth_controller.dart';
-import 'package:reddit_tutorial/features/community/controller/community_controller.dart';
+import '../../../core/common/error_text.dart';
+import '../../../core/common/loader.dart';
+import '../../../features/auth/controlller/auth_controller.dart';
+import '../../../features/community/controller/community_controller.dart';
 
 class AddModsScreen extends ConsumerStatefulWidget {
   final String name;
@@ -17,21 +17,25 @@ class AddModsScreen extends ConsumerStatefulWidget {
 }
 
 class _AddModsScreenState extends ConsumerState<AddModsScreen> {
+  //uids Seçilen moderatör kullanıcı kimliklerini tutan  nesne.
   Set<String> uids = {};
   int ctr = 0;
 
+  //Bir kullanıcı kimliğini  uids kümesine eklemek için kullanılır.
   void addUid(String uid) {
     setState(() {
       uids.add(uid);
     });
   }
 
+  //Bir kullanıcı kimliğini  uids kümesine kaldırmak için kullanılır.
   void removeUid(String uid) {
     setState(() {
       uids.remove(uid);
     });
   }
 
+  //Moderatörleri kaydetmek için kullanılır.
   void saveMods() {
     ref.read(communityControllerProvider.notifier).addMods(
       widget.name,
@@ -40,6 +44,8 @@ class _AddModsScreenState extends ConsumerState<AddModsScreen> {
     );
   }
 
+
+  //build: Ekranın görünümünü oluşturan ve güncelleyen işlevdir.
   @override
   Widget build(BuildContext context) {
     return Scaffold(

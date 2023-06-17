@@ -8,10 +8,12 @@ class ModToolsScreen extends StatelessWidget {
     required this.name,
   }) : super(key: key);
 
+  //Topluluğun düzenleme ekranına yönlendirmek için kullanılan bir işlevdir.
   void navigateToModTools(BuildContext context) {
     Routemaster.of(context).push('/edit-community/$name');
   }
 
+  //Moderatör ekranına yönlendirmek için kullanılan bir işlevdir.
   void navigateToAddMods(BuildContext context) {
     Routemaster.of(context).push('/add-mods/$name');
   }
@@ -20,18 +22,18 @@ class ModToolsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mod Tools'),
+        title: const Text('Moderatör araçaları'),
       ),
       body: Column(
         children: [
           ListTile(
             leading: const Icon(Icons.add_moderator),
-            title: const Text('Add Moderators'),
+            title: const Text('Moderatör ekle'),
             onTap: () => navigateToAddMods(context),
           ),
           ListTile(
             leading: const Icon(Icons.edit),
-            title: const Text('Edit Community'),
+            title: const Text('Topluluğu düzenle'),
             onTap: () => navigateToModTools(context),
           ),
         ],

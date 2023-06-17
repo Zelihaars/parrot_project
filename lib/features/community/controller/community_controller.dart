@@ -1,19 +1,17 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:reddit_tutorial/core/constants/constants.dart';
-import 'package:reddit_tutorial/core/failure.dart';
-import 'package:reddit_tutorial/core/providers/storage_repository_provider.dart';
-import 'package:reddit_tutorial/core/utils.dart';
-import 'package:reddit_tutorial/features/auth/controlller/auth_controller.dart';
-import 'package:reddit_tutorial/features/community/repository/communitory_repository.dart';
-import 'package:reddit_tutorial/models/community_model.dart';
-import 'package:reddit_tutorial/models/post_model.dart';
+import '../../../core/constants/constants.dart';
+import '../../../core/failure.dart';
+import '../../../core/providers/storage_repository_provider.dart';
+import '../../../core/utils.dart';
+import '../../../features/auth/controlller/auth_controller.dart';
+import '../../../features/community/repository/communitory_repository.dart';
+import '../../../models/community_model.dart';
+import '../../../models/post_model.dart';
 import 'package:routemaster/routemaster.dart';
-import '../repository/communitory_repository.dart';
 
 final userCommunitiesProvider = StreamProvider((ref) {
   final communityController = ref.watch(communityControllerProvider.notifier);
@@ -55,6 +53,7 @@ class CommunityController extends StateNotifier<bool> {
         _storageRepository = storageRepository,
         super(false);
 
+  //Belirtilen isimle yeni bir topluluk oluşturur
   void createCommunity(String name, BuildContext context) async {
     state = true;
     final uid = _ref.read(userProvider)?.uid ?? '';
@@ -70,11 +69,12 @@ class CommunityController extends StateNotifier<bool> {
     final res = await _communityRepository.createCommunity(community);
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
-      showSnackBar(context, 'Community created successfully!');
+      showSnackBar(context, 'Community başarıyla eklendi!');
       Routemaster.of(context).pop();
     });
   }
 
+  //Kullanıcının bir topluluğa katılmasını veya ayrılmasını sağlar
   void joinCommunity(Community community, BuildContext context) async {
     final user = _ref.read(userProvider)!;
 
@@ -87,22 +87,25 @@ class CommunityController extends StateNotifier<bool> {
 
     res.fold((l) => showSnackBar(context, l.message), (r) {
       if (community.members.contains(user.uid)) {
-        showSnackBar(context, 'Community left successfully!');
+        showSnackBar(context, 'Community başarıyla ayrıldı!');
       } else {
-        showSnackBar(context, 'Community joined successfully!');
+        showSnackBar(context, 'Community başarıyla katıldı!');
       }
     });
   }
 
+  //Kullanıcının üye olduğu toplulukları içeren bir akış döndürür.
   Stream<List<Community>> getUserCommunities() {
     final uid = _ref.read(userProvider)!.uid;
     return _communityRepository.getUserCommunities(uid);
   }
 
+  //Belirtilen isme sahip bir topluluğu içeren bir akış döndürür.
   Stream<Community> getCommunityByName(String name) {
     return _communityRepository.getCommunityByName(name);
   }
 
+  //Bir topluluğun profilini düzenler.
   void editCommunity({
     required File? profileFile,
     required File? bannerFile,
@@ -148,10 +151,12 @@ class CommunityController extends StateNotifier<bool> {
     );
   }
 
+  //Belirli bir sorguya göre toplulukları arayan bir akış döndürür.
   Stream<List<Community>> searchCommunity(String query) {
     return _communityRepository.searchCommunity(query);
   }
 
+  //Topluluğa moderator (mod) ekler.
   void addMods(String communityName, List<String> uids, BuildContext context) async {
     final res = await _communityRepository.addMods(communityName, uids);
     res.fold(
@@ -160,6 +165,7 @@ class CommunityController extends StateNotifier<bool> {
     );
   }
 
+  // Belirli bir topluluğa ait gönderileri içeren bir akış döndürür.
   Stream<List<Post>> getCommunityPosts(String name) {
     return _communityRepository.getCommunityPosts(name);
   }
