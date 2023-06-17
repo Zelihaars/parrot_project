@@ -1,15 +1,14 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reddit_tutorial/core/enums/enums.dart';
-import 'package:reddit_tutorial/core/providers/storage_repository_provider.dart';
-import 'package:reddit_tutorial/core/utils.dart';
-import 'package:reddit_tutorial/features/auth/controlller/auth_controller.dart';
-import 'package:reddit_tutorial/features/user_profile/repository/user_profile_repository.dart';
-import 'package:reddit_tutorial/models/post_model.dart';
-import 'package:reddit_tutorial/models/user_model.dart';
+import '../../../core/enums/enums.dart';
+import '../../../core/providers/storage_repository_provider.dart';
+import '../../../core/utils.dart';
+import '../../../features/auth/controlller/auth_controller.dart';
+import '../../../features/user_profile/repository/user_profile_repository.dart';
+import '../../../models/post_model.dart';
+import '../../../models/user_model.dart';
 import 'package:routemaster/routemaster.dart';
 
 final userProfileControllerProvider = StateNotifierProvider<UserProfileController, bool>((ref) {
@@ -22,6 +21,7 @@ final userProfileControllerProvider = StateNotifierProvider<UserProfileControlle
   );
 });
 
+// Bir kullanıcı kimliği (uid) parametresini alır ve getUserPosts yöntemini çağırarak ilgili kullanıcının yayınlanmış gönderilerini döndürür.
 final getUserPostsProvider = StreamProvider.family((ref, String uid) {
   return ref.read(userProfileControllerProvider.notifier).getUserPosts(uid);
 });
@@ -39,6 +39,7 @@ class UserProfileController extends StateNotifier<bool> {
         _storageRepository = storageRepository,
         super(false);
 
+  //Topluluğu düzenlemek için kullanılır.
   void editCommunity({
     required File? profileFile,
     required File? bannerFile,
@@ -88,10 +89,12 @@ class UserProfileController extends StateNotifier<bool> {
     );
   }
 
+  //Belirli bir kullanıcının yayınlanmış gönderilerini almak için kullanılır.
   Stream<List<Post>> getUserPosts(String uid) {
     return _userProfileRepository.getUserPosts(uid);
   }
 
+  // Kullanıcının itibar puanını güncellemek için kullanılır.
   void updateUserKarma(UserKarma karma) async {
     UserModel user = _ref.read(userProvider)!;
     user = user.copyWith(karma: user.karma + karma.karma);

@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, unused_import
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 
 class UserModel {
@@ -8,7 +5,7 @@ class UserModel {
   final String profilePic;
   final String banner;
   final String uid;
-  final bool isAuthenticated;
+  final bool isAuthenticated; // misafir mi değil mi
   final int karma;
   final List<String> awards;
   UserModel({
@@ -20,7 +17,6 @@ class UserModel {
     required this.karma,
     required this.awards,
   });
-
 
   UserModel copyWith({
     String? name,
@@ -43,7 +39,7 @@ class UserModel {
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
       'name': name,
       'profilePic': profilePic,
       'banner': banner,
@@ -56,13 +52,13 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      name: map['name'] as String,
-      profilePic: map['profilePic'] as String,
-      banner: map['banner'] as String,
-      uid: map['uid'] as String,
-      isAuthenticated: map['isAuthenticated'] as bool,
-      karma: map['karma'] as int,
-      awards: List<String>.from(map['awards'] as List<String>),
+      name: map['name'] ?? '',
+      profilePic: map['profilePic'] ?? '',
+      banner: map['banner'] ?? '',
+      uid: map['uid'] ?? '',
+      isAuthenticated: map['isAuthenticated'] ?? false,
+      karma: map['karma']?.toInt() ?? 0,
+      awards: List<String>.from(map['awards']),
     );
   }
 
@@ -72,27 +68,27 @@ class UserModel {
   }
 
   @override
-  bool operator ==(covariant UserModel other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.name == name &&
-      other.profilePic == profilePic &&
-      other.banner == banner &&
-      other.uid == uid &&
-      other.isAuthenticated == isAuthenticated &&
-      other.karma == karma &&
-      listEquals(other.awards, awards);
+
+    return other is UserModel &&
+        other.name == name &&
+        other.profilePic == profilePic &&
+        other.banner == banner &&
+        other.uid == uid &&
+        other.isAuthenticated == isAuthenticated &&
+        other.karma == karma &&
+        listEquals(other.awards, awards);
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
-      profilePic.hashCode ^
-      banner.hashCode ^
-      uid.hashCode ^
-      isAuthenticated.hashCode ^
-      karma.hashCode ^
-      awards.hashCode;
+    profilePic.hashCode ^
+    banner.hashCode ^
+    uid.hashCode ^
+    isAuthenticated.hashCode ^
+    karma.hashCode ^
+    awards.hashCode;
   }
 }

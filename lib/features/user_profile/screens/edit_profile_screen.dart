@@ -1,17 +1,16 @@
 import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reddit_tutorial/core/common/error_text.dart';
-import 'package:reddit_tutorial/core/common/loader.dart';
-import 'package:reddit_tutorial/core/constants/constants.dart';
-import 'package:reddit_tutorial/core/utils.dart';
-import 'package:reddit_tutorial/features/auth/controlller/auth_controller.dart';
-import 'package:reddit_tutorial/features/user_profile/controller/user_profile_controller.dart';
-import 'package:reddit_tutorial/responsive/responsive.dart';
-import 'package:reddit_tutorial/theme/pallete.dart';
+import '../../../core/common/error_text.dart';
+import '../../../core/common/loader.dart';
+import '../../../core/constants/constants.dart';
+import '../../../core/utils.dart';
+import '../../../features/user_profile/controller/user_profile_controller.dart';
+import '../../../responsive/responsive.dart';
+import '../../../theme/pallete.dart';
+import '../../auth/controller/auth_controller.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   final String uid;
@@ -32,18 +31,21 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   Uint8List? profileWebFile;
   late TextEditingController nameController;
 
+  //Durumun başlangıç durumunu ayarlamak için kullanılan metot.
   @override
   void initState() {
     super.initState();
     nameController = TextEditingController(text: ref.read(userProvider)!.name);
   }
 
+  //Durumu temizlemek ve bellek sızıntısını önlemek için kullanılan metot.
   @override
   void dispose() {
     super.dispose();
     nameController.dispose();
   }
 
+  //Kullanıcıya banner resmini seçme işlemini sağlayan metot.
   void selectBannerImage() async {
     final res = await pickImage();
 
@@ -60,6 +62,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     }
   }
 
+  //Kullanıcıya profil resmini seçme işlemini sağlayan metot.
   void selectProfileImage() async {
     final res = await pickImage();
 
@@ -76,6 +79,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     }
   }
 
+  //Profil düzenlemelerini kaydetmek için kullanılan metot.
   void save() {
     ref.read(userProfileControllerProvider.notifier).editCommunity(
       profileFile: profileFile,
@@ -96,12 +100,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       data: (user) => Scaffold(
         backgroundColor: currentTheme.backgroundColor,
         appBar: AppBar(
-          title: const Text('Edit Profile'),
+          title: const Text('Profil Düzenle'),
           centerTitle: false,
           actions: [
             TextButton(
               onPressed: save,
-              child: const Text('Save'),
+              child: const Text('Kaydet'),
             ),
           ],
         ),

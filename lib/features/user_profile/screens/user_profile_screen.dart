@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reddit_tutorial/core/common/error_text.dart';
-import 'package:reddit_tutorial/core/common/loader.dart';
-import 'package:reddit_tutorial/core/common/post_card.dart';
-import 'package:reddit_tutorial/features/auth/controlller/auth_controller.dart';
-import 'package:reddit_tutorial/features/user_profile/controller/user_profile_controller.dart';
+import '../../../core/common/error_text.dart';
+import '../../../core/common/loader.dart';
+import '../../../core/common/post_card.dart';
+import '../../../features/auth/controlller/auth_controller.dart';
+import '../../../features/user_profile/controller/user_profile_controller.dart';
 import 'package:routemaster/routemaster.dart';
 
 class UserProfileScreen extends ConsumerWidget {
@@ -56,7 +56,7 @@ class UserProfileScreen extends ConsumerWidget {
                           ),
                           padding: const EdgeInsets.symmetric(horizontal: 25),
                         ),
-                        child: const Text('Edit Profile'),
+                        child: const Text('Profili Düzenle'),
                       ),
                     ),
                   ],
