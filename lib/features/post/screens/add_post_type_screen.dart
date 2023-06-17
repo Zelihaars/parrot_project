@@ -201,6 +201,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
                         selectedCommunity = val;
                       });
                     },
+
                   );
                 },
                 error: (error, stackTrace) => ErrorText(

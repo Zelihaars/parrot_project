@@ -115,9 +115,9 @@ class PostRepository {
 
   //Bir postu id sine göre getirir.
   Stream<Post> getPostById(String postId) {
-    return _posts.doc(postId).snapshots().map((event) => Post.fromMap(event.data() as Map<String, dynamic>));
+    return _posts.doc(postId).snapshots().map((event)
+    => Post.fromMap(event.data() as Map<String, dynamic>));
   }
-
   //Yorumu _comments üzerinde ekler ve yorumun ait olduğu postun commentCount alanını bir artırır.
   FutureVoid addComment(Comment comment) async {
     try {
@@ -146,4 +146,22 @@ class PostRepository {
     );
   }
 
+  //Postun awards alanına ödülü ekler. Ayrıca ödülü veren kullanıcının ve postu paylaşan kullanıcının _users, awards alanlarını günceller.
+  FutureVoid awardPost(Post post, String award, String senderId) async {
+    try {
+      _posts.doc(post.id).update({
+        'awards': FieldValue.arrayUnion([award]),
+      });
+      _users.doc(senderId).update({
+        'awards': FieldValue.arrayRemove([award]),
+      });
+      return right(_users.doc(post.uid).update({
+        'awards': FieldValue.arrayUnion([award]),
+      }));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }
